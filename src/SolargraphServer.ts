@@ -44,6 +44,7 @@ export default class SolargraphServer {
 				this.child = this.solargraphCommand(args);
 				this.child.stderr.on('data', (data) => {
 					var out = data.toString();
+					console.log(out);
 					if (!this.port) {
 						var match = out.match(/port=([0-9]*)/);
 						if (match) {
@@ -83,8 +84,11 @@ export default class SolargraphServer {
 		}
 	}
 
-	public restart():Promise<Object> {
+	public restart(options?:Object):Promise<Object> {
 		this.stop();
+		if (options) {
+			this.configure(options);
+		}
 		return this.start();
 	}
 
