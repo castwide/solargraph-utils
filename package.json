@@ -8,8 +8,8 @@
     "out/"
   ],
   "scripts": {
-    "compile": "tsc -p .",
-    "watch": "tsc -w -p .",
+    "compile": "tsc -p ./src",
+    "watch": "tsc -w -p ./src",
     "test": "node ./node_modules/mocha/bin/mocha --timeout 15000 -u tdd ./out/tests/*.js"
   },
   "author": "",

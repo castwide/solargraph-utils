@@ -3,12 +3,12 @@
         "module": "commonjs",
         "declaration": true,
         "target": "es6",
-        "outDir": "out",
+        "rootDir": ".",
+        "outDir": "../out",
         "lib": [
             "es6"
         ],
-        "sourceMap": true,
-        "rootDir": "src"
+        "sourceMap": true
     },
     "exclude": [
         "node_modules",
