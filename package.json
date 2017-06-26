@@ -2,10 +2,14 @@
   "name": "solargraph-utils",
   "version": "0.0.1",
   "description": "Utilities for interacting with Solargraph",
-  "main": "out/src/index",
+  "main": "out/index.js",
+  "typings": "out/index",
+  "files": [
+    "out/"
+  ],
   "scripts": {
-    "compile": "tsc -p ./src",
-    "watch": "tsc -w -p ./src",
+    "compile": "tsc -p .",
+    "watch": "tsc -w -p .",
     "test": "node ./node_modules/mocha/bin/mocha --timeout 15000 -u tdd ./out/tests/*.js"
   },
   "author": "",

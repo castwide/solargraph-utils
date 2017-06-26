@@ -105,22 +105,50 @@ export default class SolargraphServer {
 
 	public suggest(text:string, line:number, column:number, filename?:string, workspace?:string, withSnippets?:boolean):Promise<Object> {
 		return new Promise((resolve, reject) => {
-			request.post({url: 'http://localhost:' + this.port + '/suggest', form: {
-				text: text,
-				line: line,
-				column: column,
-				filename: filename || null,
-				workspace: workspace || null,
-				with_snippets: withSnippets || false}
-			}, function(err, response, body) {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(JSON.parse(body));
-				}
-			});
+			if (this.isRunning()) {
+				request.post({url: 'http://localhost:' + this.port + '/suggest', form: {
+					text: text,
+					line: line,
+					column: column,
+					filename: filename || null,
+					workspace: workspace || null,
+					with_snippets: withSnippets || false}
+				}, function(err, response, body) {
+					if (err) {
+						reject({status: "err", message: err});
+					} else {
+						resolve(JSON.parse(body));
+					}
+				});
+			} else {
+				reject({status: "err", message: "The server is not running"});
+			}
 		});
     }
+
+	public hover(text:string, line:number, column:number, filename?:string, workspace?:string):Promise<Object> {
+		return new Promise((resolve, reject) => {
+			if (this.isRunning()) {
+				request.post({url: 'http://localhost:' + this.port + '/hover', form: {
+					text: text,
+					line: line,
+					column: column,
+					filename: filename || null,
+					workspace: workspace || null
+				}}, function(err, httpResponse, body) {
+					if (err) {
+						// TODO Handle error
+						reject(err);
+					} else {
+						resolve(JSON.parse(body));
+					}
+				});
+			} else {
+				// TODO Handle error
+				reject();
+			}
+		});
+	}
 
     private solargraphCommand(args) {
         let cmd = [];
