@@ -154,6 +154,30 @@ export class Server {
 		});
 	}
 
+    public signify(text:string, line:number, column:number, filename?:string, workspace?:string): Promise<Object> {
+        return new Promise<Object>((resolve, reject) => {
+            if (this.isRunning()) {
+				request.post({url:'http://localhost:' + this.port + '/signify', form: {
+					text: text,
+					filename: filename || null,
+					line: line,
+					column: column,
+					workspace: workspace || null}
+				}, function(err,httpResponse,body) {
+					if (err) {
+						console.log(err);
+					} else {
+						if (httpResponse.statusCode == 200) {
+							return resolve(JSON.parse(body));
+						} else {
+							// TODO: Handle error
+						}
+					}
+				});
+            }
+        });
+    }
+
     private solargraphCommand(args) {
         let cmd = [];
         if (this.useBundler && this.workspace) {
