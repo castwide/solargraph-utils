@@ -4,8 +4,8 @@ A Node package for interacting with the Solargraph rubygem.
 
 ## Example
 
-    import SolargraphServer from 'solargraph-utils';
-    let server = new SolargraphServer();
+    import * as solargraph from 'solargraph-utils';
+    let server = new solargraph.Server();
     server.start();
     server.suggest('Str', 0, 3).then((response) => {
         console.log("The server's response: " + response);
