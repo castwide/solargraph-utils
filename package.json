@@ -1,18 +1,20 @@
 {
   "name": "solargraph-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utilities for interacting with Solargraph",
   "main": "out/index.js",
   "typings": "out/index",
   "files": [
-    "out/"
+    "out/",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "compile": "tsc -p ./src",
     "watch": "tsc -w -p ./src",
     "test": "node ./node_modules/mocha/bin/mocha --timeout 15000 -u tdd ./out/tests/*.js"
   },
-  "author": "",
+  "author": "Castwide",
   "license": "MIT",
   "devDependencies": {
     "@types/mocha": "^2.2.41",
