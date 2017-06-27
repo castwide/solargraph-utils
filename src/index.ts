@@ -13,8 +13,9 @@ export function nearestWorkspace(file:string, parent?:string):string {
         result = cursor;
     } else {
         var root = parent || cursor;
-        while (root.startsWith(cursor)) {
-            if (fs.existsSync(cursor + '/.solargraph.yml') && fs.lstatSync(cursor + '/.solargraph.yml').isFile()) {
+        while (cursor.startsWith(root)) {
+            var sy = path.join(cursor, '.solargraph.yml');
+            if (fs.existsSync(sy) && fs.lstatSync(sy).isFile()) {
                 result = cursor;
                 break;
             }
