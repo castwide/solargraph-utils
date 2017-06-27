@@ -9,6 +9,10 @@
     "README.md",
     "LICENSE"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/castwide/solargraph-utils.git"
+  },
   "scripts": {
     "compile": "tsc -p ./src",
     "watch": "tsc -w -p ./src",
