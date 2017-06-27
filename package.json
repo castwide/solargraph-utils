@@ -13,7 +13,7 @@
     "test": "node ./node_modules/mocha/bin/mocha --timeout 15000 -u tdd ./out/tests/*.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/mocha": "^2.2.41",
     "@types/node": "^6.0.40",
