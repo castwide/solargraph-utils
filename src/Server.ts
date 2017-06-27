@@ -1,7 +1,7 @@
 import * as child_process from 'child_process';
 import * as request from 'request';
 
-export default class SolargraphServer {
+export class Server {
 	private child:child_process.ChildProcess = null;
 	private port:string = null;
 	private pid:number = null;

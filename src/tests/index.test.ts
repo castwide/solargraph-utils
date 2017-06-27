@@ -3,10 +3,10 @@
 import 'mocha';
 import { expect } from 'chai';
 import assert = require('assert');
-import SolargraphServer from '../SolargraphServer';
+import * as solargraph from '../index';
 
 suite('SolargraphServer', () => {
-    let server:SolargraphServer = new SolargraphServer();
+    let server:solargraph.Server = new solargraph.Server();
 
     it('starts', (done) => {
         expect(server.isRunning()).to.equal(false);
