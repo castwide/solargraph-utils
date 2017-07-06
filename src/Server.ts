@@ -1,9 +1,11 @@
+"use strict";
+
 import * as child_process from 'child_process';
 import * as request from 'request';
 
 export class Server {
 	private child:child_process.ChildProcess = null;
-	private port:string = null;
+	private _port:number = null;
 	private pid:number = null;
 
     private useBundler:boolean = false;
@@ -19,8 +21,12 @@ export class Server {
 		return (this.child != null && this.port != null && this.pid != null);
 	}
 
-	public getPort():string {
-		return this.port;
+	get port():number {
+		return this._port;
+	}
+
+	get url():string {
+		return 'http://localhost:' + this.port;
 	}
 
     public configure(options = {}) {
@@ -48,7 +54,7 @@ export class Server {
 					if (!this.port) {
 						var match = out.match(/port=([0-9]*)/);
 						if (match) {
-							this.port = match[1];
+							this._port = parseInt(match[1]);
 						}
 						match = out.match(/pid=([0-9]*)/);
 						if (match) {
@@ -61,7 +67,7 @@ export class Server {
 					}
 				});
 				this.child.on('exit', () => {
-					this.port = null;
+					this._port = null;
 					if (!started) {
 						return reject();
 					}
@@ -79,7 +85,7 @@ export class Server {
 				process.kill(this.pid);
 			}
 			this.pid = null;
-			this.port = null;
+			this._port = null;
 			this.child = null;
 		}
 	}
@@ -95,7 +101,7 @@ export class Server {
 	public prepare(workspace:string):Promise<Object> {
 		return new Promise((resolve, reject) => {
 			//let prepareStatus = vscode.window.setStatusBarMessage('Analyzing Ruby code in workspace ' + workspace);
-			request.post({url:'http://localhost:' + this.port + '/prepare', form: {
+			request.post({url: this.url + '/prepare', form: {
 				workspace: workspace
 			}}, function(err, response, body) {
 				if (err) {
@@ -110,7 +116,7 @@ export class Server {
 	public suggest(text:string, line:number, column:number, filename?:string, workspace?:string, withSnippets?:boolean):Promise<Object> {
 		return new Promise((resolve, reject) => {
 			if (this.isRunning()) {
-				request.post({url: 'http://localhost:' + this.port + '/suggest', form: {
+				request.post({url: this.url + '/suggest', form: {
 					text: text,
 					line: line,
 					column: column,
@@ -133,7 +139,7 @@ export class Server {
 	public hover(text:string, line:number, column:number, filename?:string, workspace?:string):Promise<Object> {
 		return new Promise((resolve, reject) => {
 			if (this.isRunning()) {
-				request.post({url: 'http://localhost:' + this.port + '/hover', form: {
+				request.post({url: this.url + '/hover', form: {
 					text: text,
 					line: line,
 					column: column,
@@ -157,7 +163,7 @@ export class Server {
     public signify(text:string, line:number, column:number, filename?:string, workspace?:string): Promise<Object> {
         return new Promise<Object>((resolve, reject) => {
             if (this.isRunning()) {
-				request.post({url:'http://localhost:' + this.port + '/signify', form: {
+				request.post({url: this.url + '/signify', form: {
 					text: text,
 					filename: filename || null,
 					line: line,
