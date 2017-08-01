@@ -52,7 +52,7 @@ export class Server {
 				if (this.configuration.viewsPath) {
 					args.push('--views', this.configuration.viewsPath);
 				}
-				this.child = cmd.solargraphCommand(args, this.workspace, this.useBundler);
+				this.child = cmd.solargraphCommand(args, this.configuration);
 				this.child.stderr.on('data', (data) => {
 					var out = data.toString();
 					console.log(out);

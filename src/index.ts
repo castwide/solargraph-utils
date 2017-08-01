@@ -29,9 +29,9 @@ export function nearestWorkspace(file:string, parent?:string):string {
 	return result;
 }
 
-export function testGem(workspace:String, useBundler:Boolean):Promise<Boolean> {
+export function testGem(workspace:String, configuration:Configuration):Promise<Boolean> {
     return new Promise((resolve) => {
-        var solargraphTest = cmd.solargraphCommand(['help'], workspace, useBundler);
+        var solargraphTest = cmd.solargraphCommand(['help'], configuration);
         solargraphTest.on('exit', (code) => {
             if (code == 0) {
                 resolve(true);
