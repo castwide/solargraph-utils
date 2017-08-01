@@ -2,6 +2,7 @@
 
 import * as child_process from 'child_process';
 import * as request from 'request';
+import {Configuration} from './Configuration';
 
 export class Server {
 	private child:child_process.ChildProcess = null;
@@ -13,8 +14,8 @@ export class Server {
     private views:string = null;
     private workspace:string = null;
 
-	public constructor() {
-		this.configure();
+	public constructor(config:Configuration) {
+		this.configure(config);
 	}
 
 	public isRunning():Boolean {
