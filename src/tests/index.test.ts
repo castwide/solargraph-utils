@@ -6,7 +6,8 @@ import assert = require('assert');
 import * as solargraph from '../index';
 
 suite('SolargraphServer', () => {
-    let server:solargraph.Server = new solargraph.Server();
+    let configuration:solargraph.Configuration = new solargraph.Configuration();
+    let server:solargraph.Server = new solargraph.Server(configuration);
 
     it('starts', (done) => {
         expect(server.isRunning()).to.equal(false);
