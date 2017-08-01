@@ -3,19 +3,22 @@
 import * as child_process from 'child_process';
 import * as cmd from './commands';
 import * as request from 'request';
+import {Configuration} from './Configuration';
 
 export class Server {
 	private child:child_process.ChildProcess = null;
 	private _port:number = null;
 	private pid:number = null;
 
-    private useBundler:boolean = false;
-    private commandPath:string = null;
-    private views:string = null;
-    private workspace:string = null;
+	/*private useBundler:boolean = false;
+	private commandPath:string = null;
+	private views:string = null;
+	private workspace:string = null;*/
+	private configuration:Configuration;
 
-	public constructor() {
-		this.configure();
+	public constructor(config:Configuration) {
+		//this.configure(config);
+		this.configure(config);
 	}
 
 	public isRunning():Boolean {
@@ -30,12 +33,13 @@ export class Server {
 		return 'http://localhost:' + this.port;
 	}
 
-    public configure(options = {}) {
-        this.commandPath = options['commandPath'] || 'solargraph';
-        this.useBundler = options['useBundler'] || false;
-        this.views = options['views'] || null;
-        this.workspace = options['workspace'] || null;
-    }
+	public configure(config:Configuration) {
+		/*this.commandPath = options['commandPath'] || 'solargraph';
+		this.useBundler = options['useBundler'] || false;
+		this.views = options['views'] || null;
+		this.workspace = options['workspace'] || null;*/
+		this.configuration = config;
+	}
 
 	public start():Promise<Object> {
 		return new Promise((resolve, reject) => {
@@ -45,8 +49,8 @@ export class Server {
 			} else {
 				console.log('Starting the server');
 				var args = ['server', '--port', '0'];
-				if (this.views) {
-					args.push('--views', this.views);
+				if (this.configuration.viewsPath) {
+					args.push('--views', this.configuration.viewsPath);
 				}
 				this.child = cmd.solargraphCommand(args, this.workspace, this.useBundler);
 				this.child.stderr.on('data', (data) => {
@@ -94,7 +98,7 @@ export class Server {
 	public restart(options?:Object):Promise<Object> {
 		this.stop();
 		if (options) {
-			this.configure(options);
+			//this.configure(options);
 		}
 		return this.start();
 	}
@@ -135,7 +139,7 @@ export class Server {
 				reject({status: "err", message: "The server is not running"});
 			}
 		});
-    }
+	}
 
 	public hover(text:string, line:number, column:number, filename?:string, workspace?:string):Promise<Object> {
 		return new Promise((resolve, reject) => {
@@ -161,9 +165,9 @@ export class Server {
 		});
 	}
 
-    public signify(text:string, line:number, column:number, filename?:string, workspace?:string): Promise<Object> {
-        return new Promise<Object>((resolve, reject) => {
-            if (this.isRunning()) {
+	public signify(text:string, line:number, column:number, filename?:string, workspace?:string): Promise<Object> {
+		return new Promise<Object>((resolve, reject) => {
+			if (this.isRunning()) {
 				request.post({url: this.url + '/signify', form: {
 					text: text,
 					filename: filename || null,
@@ -181,7 +185,7 @@ export class Server {
 						}
 					}
 				});
-            }
-        });
-    }
+			}
+		});
+	}
 }

@@ -1,10 +1,12 @@
+import {Configuration} from './Configuration';
 import {Server} from './Server';
 import * as cmd from './commands';
 import * as path from 'path';
 import * as fs from 'fs';
 
 export {
-	Server
+    Configuration,
+    Server
 }
 
 export function nearestWorkspace(file:string, parent?:string):string {
