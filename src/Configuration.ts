@@ -1,12 +1,24 @@
 export class Configuration {
+    private _workspace:string;
     private _useBundler:Boolean;
-    private _commandPath:String;
+    private _commandPath:string;
     private _withSnippets:Boolean;
+    private _viewsPath:string;
 
-    public constructor(useBundler:Boolean = false, commandPath:String = 'solargraph', withSnippets:Boolean = false) {
+    public constructor(workspace:string = null, useBundler:Boolean = false, commandPath:string = 'solargraph', withSnippets:Boolean = false, viewsPath:string = null) {
+        this._workspace = workspace;
         this._useBundler = useBundler;
         this._commandPath = commandPath;
         this._withSnippets = withSnippets;
+        this._viewsPath = viewsPath;
+    }
+
+    get workspace():String {
+        return this._workspace;
+    }
+
+    set workspace(path:string) {
+        this._workspace = path;
     }
 
     get useBundler():Boolean {
@@ -17,11 +29,11 @@ export class Configuration {
         this._useBundler = bool;
     }
 
-    get commandPath():String {
+    get commandPath():string {
         return this._commandPath;
     }
 
-    set commandPath(path:String) {
+    set commandPath(path:string) {
         this._commandPath = path;
     }
 
@@ -31,5 +43,13 @@ export class Configuration {
 
     set withSnippets(bool:Boolean) {
         this._withSnippets = bool;
+    }
+
+    get viewsPath():string {
+        return this._viewsPath;
+    }
+
+    set viewsPath(path:string) {
+        this._viewsPath = path;
     }
 }
