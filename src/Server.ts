@@ -10,10 +10,6 @@ export class Server {
 	private _port:number = null;
 	private pid:number = null;
 
-	/*private useBundler:boolean = false;
-	private commandPath:string = null;
-	private views:string = null;
-	private workspace:string = null;*/
 	private configuration:Configuration;
 
 	public constructor(config:Configuration) {
