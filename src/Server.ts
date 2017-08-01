@@ -1,6 +1,7 @@
 "use strict";
 
 import * as child_process from 'child_process';
+import * as cmd from './commands';
 import * as request from 'request';
 
 export class Server {
@@ -47,7 +48,7 @@ export class Server {
 				if (this.views) {
 					args.push('--views', this.views);
 				}
-				this.child = this.solargraphCommand(args);
+				this.child = cmd.solargraphCommand(args, this.workspace, this.useBundler);
 				this.child.stderr.on('data', (data) => {
 					var out = data.toString();
 					console.log(out);
@@ -182,18 +183,5 @@ export class Server {
 				});
             }
         });
-    }
-
-    private solargraphCommand(args) {
-        let cmd = [];
-        if (this.useBundler && this.workspace) {
-            // TODO: pathToBundler configuration
-            cmd.push('bundle', 'exec', 'solargraph');
-        } else {
-            cmd.push(this.commandPath);
-        }
-        var env = { shell: true };
-        if (this.workspace) env['cwd'] = this.workspace;
-        return child_process.spawn(cmd.shift(), cmd.concat(args), env);
     }
 }
