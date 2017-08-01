@@ -13,7 +13,6 @@ export class Server {
 	private configuration:Configuration;
 
 	public constructor(config:Configuration) {
-		//this.configure(config);
 		this.configure(config);
 	}
 
@@ -30,10 +29,6 @@ export class Server {
 	}
 
 	public configure(config:Configuration) {
-		/*this.commandPath = options['commandPath'] || 'solargraph';
-		this.useBundler = options['useBundler'] || false;
-		this.views = options['views'] || null;
-		this.workspace = options['workspace'] || null;*/
 		this.configuration = config;
 	}
 
@@ -91,11 +86,8 @@ export class Server {
 		}
 	}
 
-	public restart(options?:Object):Promise<Object> {
+	public restart():Promise<Object> {
 		this.stop();
-		if (options) {
-			//this.configure(options);
-		}
 		return this.start();
 	}
 
