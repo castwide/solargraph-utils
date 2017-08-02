@@ -76,3 +76,29 @@ export function updateGemDocumentation(configuration:Configuration) {
 	console.log('Updating gem yardocs');
 	cmd.yardCommand(['gems'], configuration);
 }
+
+export function installGem(configuration:Configuration):Promise<Boolean> {
+	return new Promise((resolve, reject) => {
+		var child = cmd.gemCommand(['install', 'solargraph'], configuration);
+		child.on('exit', (code) => {
+			if (code == 0) {
+				resolve(true);
+			} else {
+				reject(false);
+			}
+		});
+	});
+}
+
+export function updateGem(configuration:Configuration):Promise<Boolean> {
+	return new Promise((resolve, reject) => {
+		var child = cmd.gemCommand(['update', 'solargraph'], configuration);
+		child.on('exit', (code) => {
+			if (code == 0) {
+				resolve(true);
+			} else {
+				reject(false);
+			}
+		});
+	});
+}
