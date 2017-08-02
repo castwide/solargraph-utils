@@ -71,3 +71,8 @@ export function writeConfigFile(configuration:Configuration):Promise<Boolean> {
 		});
 	});
 }
+
+export function updateGemDocumentation(configuration:Configuration) {
+	console.log('Updating gem yardocs');
+	cmd.yardCommand(['gems'], configuration);
+}
