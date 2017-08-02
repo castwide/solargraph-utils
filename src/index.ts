@@ -4,8 +4,6 @@ import * as cmd from './commands';
 import * as path from 'path';
 import * as fs from 'fs';
 
-console.log('yeah, yer here');
-
 export {
     Configuration,
     Server
