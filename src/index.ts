@@ -6,7 +6,7 @@ import * as fs from 'fs';
 
 export {
     Configuration,
-    Server
+	Server
 }
 
 export function nearestWorkspace(file:string, parent?:string):string {
@@ -54,6 +54,19 @@ export function verifyGemIsCurrent(configuration:Configuration):Promise<Boolean>
 				reject(false);
 			} else {
 				resolve(true);
+			}
+		});
+	});
+}
+
+export function writeConfigFile(configuration:Configuration):Promise<Boolean> {
+	return new Promise((resolve, reject) => {
+		var child = cmd.solargraphCommand(['config', '.'], configuration);
+		child.on('exit', (code) => {
+			if (code == 0) {
+				resolve(true);
+			} else {
+				reject(false);
 			}
 		});
 	});
