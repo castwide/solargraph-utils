@@ -36,7 +36,7 @@ export function verifyGemIsInstalled(configuration:Configuration):Promise<Boolea
             if (code == 0) {
                 resolve(true);
             } else {
-                reject(false);
+                resolve(false);
             }
         });
     });
@@ -49,11 +49,15 @@ export function verifyGemIsCurrent(configuration:Configuration):Promise<Boolean>
 		child.stdout.on('data', (data:Buffer) => {
 			result += data.toString();
 		});
-		child.on('exit', () => {
-			if (result.match(/[\s]solargraph[\s]/)) {
-				reject(false);
+		child.on('exit', (code) => {
+			if (code == 0) {
+				if (result.match(/[\s]solargraph[\s]/)) {
+					resolve(false);
+				} else {
+					resolve(true);
+				}
 			} else {
-				resolve(true);
+				reject();
 			}
 		});
 	});

@@ -59,16 +59,31 @@ export class Server {
 					}
 					if (this.isRunning() && !started) {
 						started = true;
-						return resolve();
+						resolve();
 					}
 				});
 				this.child.on('exit', () => {
 					this._port = null;
 					if (!started) {
-						return reject();
+						reject();
 					}
 				});
 			}
+		});
+	}
+
+	public update(filename:string, workspace?:string):Promise<Object> {
+		return new Promise((resolve, reject) => {
+			request.post({url: this.url + '/update', form: {
+				filename: filename,
+				workspace: workspace
+			}}, function (err, response, body) {
+				if (err) {
+					reject();
+				} else {
+					resolve();
+				}
+			});
 		});
 	}
 
@@ -167,7 +182,7 @@ export class Server {
 						console.log(err);
 					} else {
 						if (httpResponse.statusCode == 200) {
-							return resolve(JSON.parse(body));
+							resolve(JSON.parse(body));
 						} else {
 							// TODO: Handle error
 						}
