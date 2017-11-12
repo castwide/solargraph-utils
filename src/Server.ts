@@ -168,6 +168,26 @@ export class Server {
 		});
 	}
 
+	public resolve(path:string, workspace?:string):Promise<Object> {
+		return new Promise((resolve, reject) => {
+			if (this.isRunning()) {
+				request.post({url: this.url + '/resolve', form: {
+					path: path,
+					workspace: workspace || null
+				}}, function (err, httpResponse, body) {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(JSON.parse(body));
+					}
+				});
+			} else {
+				// TODO Handle error
+				reject();
+			}
+		});
+	}
+
 	public signify(text:string, line:number, column:number, filename?:string, workspace?:string): Promise<Object> {
 		return new Promise<Object>((resolve, reject) => {
 			if (this.isRunning()) {

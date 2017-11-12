@@ -2,7 +2,7 @@ import * as child_process from 'child_process';
 import {Configuration} from './Configuration';
 
 const COMMAND_ENV = {
-	shell: (process.platform == 'linux' ? '/bin/bash' : true)
+	shell: true
 }
 
 export function solargraphCommand(args:Array<String>, configuration:Configuration):child_process.ChildProcess {
