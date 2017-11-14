@@ -7,8 +7,9 @@ A Node package for interacting with the Solargraph rubygem.
     import * as solargraph from 'solargraph-utils';
     let config = new Solargraph.Configuration();
     let server = new solargraph.Server(config);
-    server.start();
-    server.suggest('Str', 0, 3).then((response) => {
-        console.log("The server's response: " + JSON.stringify(response));
-        server.stop();
+    server.start().then(() => {
+        server.suggest('Str', 0, 3).then((response) => {
+            console.log("The server's response: " + JSON.stringify(response));
+            server.stop();
+        });
     });
