@@ -77,11 +77,16 @@ export class Server {
 			request.post({url: this.url + '/update', form: {
 				filename: filename,
 				workspace: workspace
-			}}, function (err, response, body) {
+			}}, function (err, httpResponse, body) {
 				if (err) {
 					reject();
 				} else {
-					resolve();
+					if (httpResponse.statusCode == 200) {
+						resolve(JSON.parse(body));
+					}
+					else {
+						reject('Server responded with ' + httpResponse.statusCode);
+					}
 				}
 			});
 		});
@@ -131,11 +136,16 @@ export class Server {
 					filename: filename || null,
 					workspace: workspace || null,
 					with_snippets: withSnippets || false}
-				}, function(err, response, body) {
+				}, function(err, httpResponse, body) {
 					if (err) {
 						reject({status: "err", message: err});
 					} else {
-						resolve(JSON.parse(body));
+                        if (httpResponse.statusCode == 200) {
+                            resolve(JSON.parse(body));
+                        }
+                        else {
+                            reject('Server responded with ' + httpResponse.statusCode);
+                        }
 					}
 				});
 			} else {
@@ -158,7 +168,12 @@ export class Server {
 						// TODO Handle error
 						reject(err);
 					} else {
-						resolve(JSON.parse(body));
+                        if (httpResponse.statusCode == 200) {
+                            resolve(JSON.parse(body));
+                        }
+                        else {
+                            reject('Server responded with ' + httpResponse.statusCode);
+                        }
 					}
 				});
 			} else {
@@ -178,7 +193,12 @@ export class Server {
 					if (err) {
 						reject(err);
 					} else {
-						resolve(JSON.parse(body));
+                        if (httpResponse.statusCode == 200) {
+                            resolve(JSON.parse(body));
+                        }
+                        else {
+                            reject('Server responded with ' + httpResponse.statusCode);
+                        }
 					}
 				});
 			} else {
