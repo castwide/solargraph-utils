@@ -193,10 +193,9 @@ export class Server {
 					if (err) {
 						reject(err);
 					} else {
-                        if (httpResponse.statusCode == 200) {
+						if (httpResponse.statusCode == 200) {
                             resolve(JSON.parse(body));
-                        }
-                        else {
+                        } else {
                             reject('Server responded with ' + httpResponse.statusCode);
                         }
 					}
