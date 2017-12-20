@@ -1,8 +1,18 @@
 import * as child_process from 'child_process';
 import {Configuration} from './Configuration';
+import { platform } from 'os';
 
-const COMMAND_ENV = {
-	shell: true
+var commonEnvironment = function(workspace) {
+	var env = {};
+	if (platform().match(/darwin|linux/)) {
+		env['shell'] = '/bin/bash';
+	} else {
+		env['shell'] = true;
+	}
+	if (workspace) {
+		env['cwd'] = workspace;
+	}
+	return env;
 }
 
 export function solargraphCommand(args:Array<String>, configuration:Configuration):child_process.ChildProcess {
@@ -13,8 +23,7 @@ export function solargraphCommand(args:Array<String>, configuration:Configuratio
 	} else {
 		cmd.push(configuration.commandPath);
 	}
-	var env = COMMAND_ENV;
-	if (configuration.workspace) env['cwd'] = configuration.workspace;
+	var env = commonEnvironment(configuration.workspace);
 	return child_process.spawn(cmd.shift(), cmd.concat(args), env);
 }
 
@@ -24,8 +33,7 @@ export function gemCommand(args:Array<String>, configuration:Configuration):chil
 		cmd.push('bundle', 'exec');
 	}
 	cmd.push('gem');
-	var env = COMMAND_ENV;
-	if (configuration.workspace) env['cwd'] = configuration.workspace;
+	var env = commonEnvironment(configuration.workspace);
 	return child_process.spawn(cmd.shift(), cmd.concat(args), env);
 }
 
@@ -35,7 +43,6 @@ export function yardCommand(args:Array<String>, configuration:Configuration):chi
 		cmd.push('bundle', 'exec');
 	}
 	cmd.push('yard');
-	var env = COMMAND_ENV;
-	if (configuration.workspace) env['cwd'] = configuration.workspace;
+	var env = commonEnvironment(configuration.workspace);
 	return child_process.spawn(cmd.shift(), cmd.concat(args), env);
 }
