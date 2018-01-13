@@ -1,12 +1,13 @@
 import {Configuration} from './Configuration';
 import {Server} from './Server';
-import * as cmd from './commands';
+import * as commands from './commands';
 import * as path from 'path';
 import * as fs from 'fs';
 
 export {
     Configuration,
-	Server
+	Server,
+	commands
 }
 
 export function nearestWorkspace(file:string, parent?:string):string {
@@ -31,7 +32,7 @@ export function nearestWorkspace(file:string, parent?:string):string {
 
 export function verifyGemIsInstalled(configuration:Configuration):Promise<Boolean> {
     return new Promise((resolve, reject) => {
-        var solargraphTest = cmd.solargraphCommand(['help'], configuration);
+        var solargraphTest = commands.solargraphCommand(['help'], configuration);
         solargraphTest.on('exit', (code) => {
             if (code == 0) {
                 resolve(true);
@@ -44,7 +45,7 @@ export function verifyGemIsInstalled(configuration:Configuration):Promise<Boolea
 
 export function verifyGemIsCurrent(configuration:Configuration):Promise<Boolean> {
     return new Promise((resolve, reject) => {
-		let child = cmd.gemCommand(['outdated'], configuration);
+		let child = commands.gemCommand(['outdated'], configuration);
 		let result = "\n";
 		child.stdout.on('data', (data:Buffer) => {
 			result += data.toString();
@@ -65,7 +66,7 @@ export function verifyGemIsCurrent(configuration:Configuration):Promise<Boolean>
 
 export function writeConfigFile(configuration:Configuration):Promise<Boolean> {
 	return new Promise((resolve, reject) => {
-		var child = cmd.solargraphCommand(['config', '.'], configuration);
+		var child = commands.solargraphCommand(['config', '.'], configuration);
 		child.on('exit', (code) => {
 			if (code == 0) {
 				resolve(true);
@@ -78,12 +79,12 @@ export function writeConfigFile(configuration:Configuration):Promise<Boolean> {
 
 export function updateGemDocumentation(configuration:Configuration) {
 	console.log('Updating gem yardocs');
-	cmd.yardCommand(['gems'], configuration);
+	commands.yardCommand(['gems'], configuration);
 }
 
 export function installGem(configuration:Configuration):Promise<Boolean> {
 	return new Promise((resolve, reject) => {
-		var child = cmd.gemCommand(['install', 'solargraph'], configuration);
+		var child = commands.gemCommand(['install', 'solargraph'], configuration);
 		child.on('exit', (code) => {
 			if (code == 0) {
 				resolve(true);
@@ -96,7 +97,7 @@ export function installGem(configuration:Configuration):Promise<Boolean> {
 
 export function updateGem(configuration:Configuration):Promise<Boolean> {
 	return new Promise((resolve, reject) => {
-		var child = cmd.gemCommand(['update', 'solargraph'], configuration);
+		var child = commands.gemCommand(['update', 'solargraph'], configuration);
 		child.on('exit', (code) => {
 			if (code == 0) {
 				resolve(true);
