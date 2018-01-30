@@ -157,7 +157,7 @@ export class Server {
 	public define(text:string, line:number, column:number, filename?:string, workspace?:string):Promise<Object> {
 		return new Promise((resolve, reject) => {
 			if (this.isRunning()) {
-				request.post({url: this.url + '/define', form: {
+				request.post({url: this.url + '/hover', form: {
 					text: text,
 					line: line,
 					column: column,
@@ -184,32 +184,7 @@ export class Server {
 	}
 
 	public hover(text:string, line:number, column:number, filename?:string, workspace?:string):Promise<Object> {
-		return new Promise((resolve, reject) => {
-			if (this.isRunning()) {
-				request.post({url: this.url + '/hover', form: {
-					text: text,
-					line: line,
-					column: column,
-					filename: filename || null,
-					workspace: workspace || null
-				}}, function(err, httpResponse, body) {
-					if (err) {
-						// TODO Handle error
-						reject(err);
-					} else {
-                        if (httpResponse.statusCode == 200) {
-                            resolve(JSON.parse(body));
-                        }
-                        else {
-                            reject('Server responded with ' + httpResponse.statusCode);
-                        }
-					}
-				});
-			} else {
-				// TODO Handle error
-				reject();
-			}
-		});
+		return this.define(text, line, column, filename, workspace);
 	}
 
 	public resolve(path:string, workspace?:string):Promise<Object> {
