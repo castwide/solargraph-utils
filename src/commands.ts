@@ -14,6 +14,9 @@ var commonOptions = function(workspace) {
 
 var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
 	if (platform().match(/darwin|linux/)) {
+		// OSX and Linux need to use an explicit bash shell in order to find
+		// the correct Ruby environment through installation managers like
+		// rvm and rbenv.
 		return child_process.spawn('/bin/bash', ['-l', '-c', shellEscape(cmd)], opts);
 	} else {
 		return spawn(cmd.shift(), cmd, opts);
