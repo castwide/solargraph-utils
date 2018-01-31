@@ -1,3 +1,6 @@
+# 0.5.0
+* Server.define() method
+
 # 0.4.1 - January 31, 2018
 * Escape shell command arguments
 * Invoke explicit bash shell on darwin and linux
