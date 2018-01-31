@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "cross-spawn": "^6.0.3",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "shell-escape": "^0.2.0"
   }
 }
