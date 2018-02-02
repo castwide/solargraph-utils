@@ -16,11 +16,11 @@ suite('Server', () => {
         }).then(done, done);
     });
 
-    it('restarts', (done) => {
+    /*it('restarts', (done) => {
         server.restart().then(() => {
             expect(server.isRunning()).to.equal(true);
         }).then(done, done);
-    });
+    });*/
 
     it('returns suggestions', (done) => {
         server.suggest('String.n', 0, 7, 'file.rb').then((response) => {

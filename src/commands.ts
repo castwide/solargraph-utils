@@ -1,7 +1,7 @@
 import * as child_process from 'child_process';
 import {Configuration} from './Configuration';
 import { platform } from 'os';
-const spawn = require('cross-spawn');
+const crossSpawn = require('cross-spawn');
 const shellEscape = require('shell-escape');
 
 var commonOptions = function(workspace) {
@@ -17,9 +17,14 @@ var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
 		// OSX and Linux need to use an explicit bash shell in order to find
 		// the correct Ruby environment through installation managers like
 		// rvm and rbenv.
-		return child_process.spawn('/bin/bash', ['-l', '-c', shellEscape(cmd)], opts);
+		var shell = process.env.SHELL;
+		if (!shell) {
+			shell = '/bin/bash';
+		}
+		var shellArgs = ['-l', '-c', shellEscape(cmd)];
+		return child_process.spawn(shell, shellArgs, opts);
 	} else {
-		return spawn(cmd.shift(), cmd, opts);
+		return crossSpawn(cmd.shift(), cmd, opts);
 	}
 }
 
