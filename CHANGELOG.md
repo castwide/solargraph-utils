@@ -1,4 +1,4 @@
-## 0.5.1
+## 0.5.1 - February 2, 2018
 - Commands use process.env.SHELL when available
 
 ## 0.5.0 - February 1, 2018
