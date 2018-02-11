@@ -1,6 +1,6 @@
 {
   "name": "solargraph-utils",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Utilities for interacting with Solargraph",
   "main": "out/index.js",
   "typings": "out/index",
@@ -30,7 +30,10 @@
   },
   "dependencies": {
     "cross-spawn": "^6.0.3",
+    "html2plaintext": "^1.1.0",
     "request": "^2.79.0",
-    "shell-escape": "^0.2.0"
-  }
+    "shell-escape": "^0.2.0",
+    "vscode-languageclient": "^4.0.0-next.4",
+    "vscode-languageserver": "^4.0.0-next.4"
+}
 }
