@@ -34,7 +34,7 @@ connection.onInitialize((params): InitializeResult => {
 			hoverProvider: true,
 			definitionProvider: true,
 			signatureHelpProvider: {
-				triggerCharacters: ['(']
+				triggerCharacters: ['(', ',']
 			}
 		}
 	}
