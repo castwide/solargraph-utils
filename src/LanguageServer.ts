@@ -5,6 +5,7 @@ import { Configuration } from './Configuration';
 import { Server } from './Server';
 import { uriToFilePath } from 'vscode-languageserver/lib/files';
 import * as format from './format';
+import { solargraphCommand } from './commands';
 var fileUrl = require('file-url');
 //import * as helper from './helper';
 
@@ -21,6 +22,9 @@ let workspaceRoot: string;
 connection.onInitialize((params): InitializeResult => {
 	workspaceRoot = params.rootPath;
 	solargraphConfiguration.workspace = workspaceRoot;
+	if (params.initializationOptions.viewsPath) {
+		solargraphConfiguration.viewsPath = params.initializationOptions.viewsPath;
+	}
 	solargraphServer.start().then(() => {
 		solargraphServer.prepare(workspaceRoot);
 	});
