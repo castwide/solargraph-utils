@@ -30,10 +30,12 @@
   },
   "dependencies": {
     "cross-spawn": "^6.0.3",
+    "file-url": "^2.0.2",
     "html2plaintext": "^1.1.0",
     "request": "^2.79.0",
     "shell-escape": "^0.2.0",
+    "uri-path": "^1.0.0",
     "vscode-languageclient": "^4.0.0-next.4",
     "vscode-languageserver": "^4.0.0-next.4"
-}
+  }
 }

@@ -1,10 +1,11 @@
 'use strict';
 
-import { IConnection, createConnection, IPCMessageReader, IPCMessageWriter, TextDocuments, InitializeResult, TextDocumentPositionParams, CompletionItem, CompletionItemKind, MarkupContent, MarkedString, Hover, TextEdit, Range, TextDocument, Position } from 'vscode-languageserver';
+import { IConnection, createConnection, IPCMessageReader, IPCMessageWriter, TextDocuments, InitializeResult, TextDocumentPositionParams, CompletionItem, CompletionItemKind, MarkupContent, MarkedString, Hover, TextEdit, Range, TextDocument, Position, Location } from 'vscode-languageserver';
 import { Configuration } from './Configuration';
 import { Server } from './Server';
 import { uriToFilePath } from 'vscode-languageserver/lib/files';
 import * as format from './format';
+var fileUrl = require('file-url');
 //import * as helper from './helper';
 
 let solargraphConfiguration = new Configuration();
@@ -30,7 +31,8 @@ connection.onInitialize((params): InitializeResult => {
 				resolveProvider: true,
 				triggerCharacters: ['.', ':', '@']
 			},
-			hoverProvider: true
+			hoverProvider: true,
+			definitionProvider: true
 		}
 	}
 });
@@ -162,6 +164,29 @@ connection.onHover((textDocumentPosition: TextDocumentPositionParams): Promise<H
 			} else {
 				reject();
 			}
+		});
+	});
+});
+
+connection.onDefinition((textDocumentPosition: TextDocumentPositionParams): Promise<Location[]> => {
+	return new Promise((resolve) => {
+		let document = documents.get(textDocumentPosition.textDocument.uri);
+		let filename = uriToFilePath(document.uri);
+		solargraphServer.define(document.getText(), textDocumentPosition.position.line, textDocumentPosition.position.character, filename, workspaceRoot).then((data) => {
+			var locations: Location[] = [];
+			data['suggestions'].forEach((s) => {
+				if (s.location) {
+					var match = s['location'].match(/^(.*?):([0-9]*?):([0-9]*)$/);
+					if (match) {
+						var url = fileUrl(match[1]);
+						var line = parseInt(match[2]);
+						var char = parseInt(match[3]);
+						var location = Location.create(fileUrl(match[1]), Range.create({line: line, character: char}, {line: line, character: char}));
+						locations.push(location);
+					}
+				}
+			});
+			resolve(locations);
 		});
 	});
 });
