@@ -1,6 +1,6 @@
 'use strict';
 
-import { IConnection, createConnection, IPCMessageReader, IPCMessageWriter, TextDocuments, InitializeResult, TextDocumentPositionParams, CompletionItem, CompletionItemKind, MarkupContent, MarkedString, Hover, TextEdit, Range, TextDocument, Position, Location } from 'vscode-languageserver';
+import { IConnection, createConnection, IPCMessageReader, IPCMessageWriter, TextDocuments, InitializeResult, TextDocumentPositionParams, CompletionItem, CompletionItemKind, MarkupContent, MarkedString, Hover, TextEdit, Range, TextDocument, Position, Location, SignatureHelp, SignatureInformation } from 'vscode-languageserver';
 import { Configuration } from './Configuration';
 import { Server } from './Server';
 import { uriToFilePath } from 'vscode-languageserver/lib/files';
@@ -32,7 +32,10 @@ connection.onInitialize((params): InitializeResult => {
 				triggerCharacters: ['.', ':', '@']
 			},
 			hoverProvider: true,
-			definitionProvider: true
+			definitionProvider: true,
+			signatureHelpProvider: {
+				triggerCharacters: ['(']
+			}
 		}
 	}
 });
@@ -187,6 +190,40 @@ connection.onDefinition((textDocumentPosition: TextDocumentPositionParams): Prom
 				}
 			});
 			resolve(locations);
+		});
+	});
+});
+
+connection.onSignatureHelp((textDocumentPosition: TextDocumentPositionParams): Promise<SignatureHelp> => {
+	return new Promise((resolve) => {
+		let document = documents.get(textDocumentPosition.textDocument.uri);
+		let filename = uriToFilePath(document.uri);
+		solargraphServer.signify(document.getText(), textDocumentPosition.position.line, textDocumentPosition.position.character, filename, workspaceRoot).then((data) => {
+			var signatures: SignatureInformation[] = [];
+			data['suggestions'].forEach((s) => {
+				var doc = s.documentation;
+				if (s.params && s.params.length > 0) {
+					doc += "<p>Params:<br/>";
+					for (var j = 0; j < s.params.length; j++) {
+						doc += "- " + s.params[j] + "<br/>";
+					}
+					doc += "</p>";
+				}
+				var info = SignatureInformation.create(s.label + '(' + s.arguments.join(', ') + ')', format.htmlToPlainText(doc));
+				signatures.push(info);
+			});
+			var activeSignature;
+			var activeParameter;
+			if (signatures.length > 0) {
+				activeSignature = 0
+				activeParameter = (signatures[0].parameters.length > 0 ? 0 : null);
+			}
+			var help: SignatureHelp = {
+				signatures: signatures,
+				activeSignature: 0,
+				activeParameter: null
+			}
+			resolve(help);
 		});
 	});
 });
