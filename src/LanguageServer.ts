@@ -26,9 +26,12 @@ connection.onInitialize((params): InitializeResult => {
 	if (params.initializationOptions) {
 		if (params.initializationOptions.viewsPath) {
 			solargraphConfiguration.viewsPath = params.initializationOptions.viewsPath;
+			solargraphConfiguration.useBundler = params.initializationOptions.userBundler || false;
 		}
 	}
 	solargraphServer.start().then(() => {
+		// Give the Solargraph server info to the client
+		connection.sendNotification("$/solargraphInfo", { url: solargraphServer.url });
 		solargraphServer.prepare(workspaceRoot);
 	});
 	return {
@@ -48,7 +51,9 @@ connection.onInitialize((params): InitializeResult => {
 });
 
 documents.onDidChangeContent((change) => {
-	// TODO: Lint
+	solargraphServer.post('/format', { filename: uriToFilePath(change.document.uri), text: change.document.getText() }).then((data) => {
+		// TODO: Handle the lint
+	});
 });
 
 connection.onDidChangeConfiguration((change) => {
@@ -56,7 +61,7 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 var getDocumentPageLink = function(path: string): string {
-	var uri = "solargraph:" + solargraphServer.port + "/document?workspace=" + encodeURI(workspaceRoot) + "&query=" + encodeURI(path).replace('#', '%23');
+	var uri = "solargraph:/document?query=" + encodeURI(path).replace('#', '%23');
 	var link = "[" + path + '](' + uri + ')';
 	return link;
 }

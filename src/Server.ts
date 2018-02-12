@@ -111,6 +111,27 @@ export class Server {
 		return this.start();
 	}
 
+	public post(path: string, params: any): Promise<any> {
+		return new Promise((resolve, reject) => {
+			//let prepareStatus = vscode.window.setStatusBarMessage('Analyzing Ruby code in workspace ' + workspace);
+			request.post({
+				url: this.url + path,
+				form: params
+			}, function(err, response, body) {
+				if (err) {
+					reject();
+				} else {
+					if (response.headers['content-type'] && response.headers['content-type'].includes('json')) {
+						console.log('YIPPIE KAY YEY');
+						resolve(JSON.parse(body));
+					} else {
+						resolve(body);
+					}
+				}
+			});
+		});
+	}
+
 	public prepare(workspace:string):Promise<Object> {
 		return new Promise((resolve, reject) => {
 			//let prepareStatus = vscode.window.setStatusBarMessage('Analyzing Ruby code in workspace ' + workspace);
