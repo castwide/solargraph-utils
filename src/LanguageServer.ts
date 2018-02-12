@@ -22,8 +22,10 @@ let workspaceRoot: string;
 connection.onInitialize((params): InitializeResult => {
 	workspaceRoot = params.rootPath;
 	solargraphConfiguration.workspace = workspaceRoot;
-	if (params.initializationOptions.viewsPath) {
-		solargraphConfiguration.viewsPath = params.initializationOptions.viewsPath;
+	if (params.initializationOptions) {
+		if (params.initializationOptions.viewsPath) {
+			solargraphConfiguration.viewsPath = params.initializationOptions.viewsPath;
+		}
 	}
 	solargraphServer.start().then(() => {
 		solargraphServer.prepare(workspaceRoot);
@@ -56,11 +58,8 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 var getDocumentPageLink = function(path: string): string {
-	var uri = 'solargraph:/document?' + path.replace('#', '%23');
-	uri = "solargraph:" + solargraphServer.port + "/document?workspace=" + encodeURI(workspaceRoot) + "&query=" + path.replace('#', '%23');
-	console.log('URI: ' + uri);
-	var href = encodeURI('command:solargraph._openDocumentUrl?' + JSON.stringify(uri));
-	var link = "[" + path + '](' + href + ')';
+	var uri = "solargraph:" + solargraphServer.port + "/document?workspace=" + encodeURI(workspaceRoot) + "&query=" + encodeURI(path).replace('#', '%23');
+	var link = "[" + path + '](' + uri + ')';
 	return link;
 }
 
