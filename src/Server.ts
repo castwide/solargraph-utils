@@ -4,6 +4,7 @@ import * as child_process from 'child_process';
 import * as cmd from './commands';
 import * as request from 'request';
 import {Configuration} from './Configuration';
+import { clearInterval } from 'timers';
 
 export class Server {
 	private child:child_process.ChildProcess = null;
@@ -109,6 +110,21 @@ export class Server {
 	public restart():Promise<Object> {
 		this.stop();
 		return this.start();
+	}
+
+	public wait(): Promise<Boolean> {
+		return new Promise((resolve) => {
+			if (this.isRunning()) {
+				resolve(true);
+			} else {
+				var interval = setInterval(() => {
+					if (this.isRunning()) {
+						clearInterval(interval);
+						resolve(true);
+					}
+				}, 100);
+			}
+		});
 	}
 
 	public post(path: string, params: any): Promise<any> {

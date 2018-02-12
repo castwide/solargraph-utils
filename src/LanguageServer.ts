@@ -51,13 +51,15 @@ connection.onInitialize((params): InitializeResult => {
 });
 
 var runDiagnostics = function(document: TextDocument) {
-	solargraphServer.post('/diagnostics', { filename: uriToFilePath(document.uri), text: document.getText() }).then((data) => {
-		if (data.status == 'ok') {
-			connection.sendDiagnostics({
-				diagnostics: data.data,
-				uri: document.uri
-			});
-		}
+	solargraphServer.wait().then(() => {
+		solargraphServer.post('/diagnostics', { filename: uriToFilePath(document.uri), text: document.getText() }).then((data) => {
+			if (data.status == 'ok') {
+				connection.sendDiagnostics({
+					diagnostics: data.data,
+					uri: document.uri
+				});
+			}
+		});
 	});
 }
 
@@ -66,6 +68,7 @@ documents.onDidChangeContent((change) => {
 });
 
 documents.onDidOpen((change) => {
+	console.log('Reportedly opened: ' + change.document.uri);
 	runDiagnostics(change.document);
 });
 
