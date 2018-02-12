@@ -6,6 +6,7 @@ import { Server } from './Server';
 import { uriToFilePath } from 'vscode-languageserver/lib/files';
 import * as format from './format';
 import { solargraphCommand } from './commands';
+
 var fileUrl = require('file-url');
 //import * as helper from './helper';
 
@@ -47,10 +48,7 @@ connection.onInitialize((params): InitializeResult => {
 });
 
 documents.onDidChangeContent((change) => {
-	// TODO: This might not be necessary given that completion requests send
-	// the document text, and this update function only reloads the version on
-	// disk.
-	//solargraphServer.update(uriToFilePath(change.document.uri), workspaceRoot);
+	// TODO: Lint
 });
 
 connection.onDidChangeConfiguration((change) => {
