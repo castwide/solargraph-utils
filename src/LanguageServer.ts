@@ -50,16 +50,23 @@ connection.onInitialize((params): InitializeResult => {
 	}
 });
 
-documents.onDidChangeContent((change) => {
-	solargraphServer.post('/diagnostics', { filename: uriToFilePath(change.document.uri), text: change.document.getText() }).then((data) => {
+var runDiagnostics = function(document: TextDocument) {
+	solargraphServer.post('/diagnostics', { filename: uriToFilePath(document.uri), text: document.getText() }).then((data) => {
 		if (data.status == 'ok') {
-			console.log("For the thing: " + JSON.stringify(data.data));
 			connection.sendDiagnostics({
 				diagnostics: data.data,
-				uri: change.document.uri
+				uri: document.uri
 			});
 		}
 	});
+}
+
+documents.onDidChangeContent((change) => {
+	runDiagnostics(change.document);
+});
+
+documents.onDidOpen((change) => {
+	runDiagnostics(change.document);
 });
 
 connection.onDidChangeConfiguration((change) => {
