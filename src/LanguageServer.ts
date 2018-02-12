@@ -26,7 +26,7 @@ connection.onInitialize((params): InitializeResult => {
 	if (params.initializationOptions) {
 		if (params.initializationOptions.viewsPath) {
 			solargraphConfiguration.viewsPath = params.initializationOptions.viewsPath;
-			solargraphConfiguration.useBundler = params.initializationOptions.userBundler || false;
+			solargraphConfiguration.useBundler = params.initializationOptions.useBundler || false;
 		}
 	}
 	solargraphServer.start().then(() => {
@@ -51,8 +51,14 @@ connection.onInitialize((params): InitializeResult => {
 });
 
 documents.onDidChangeContent((change) => {
-	solargraphServer.post('/format', { filename: uriToFilePath(change.document.uri), text: change.document.getText() }).then((data) => {
-		// TODO: Handle the lint
+	solargraphServer.post('/diagnostics', { filename: uriToFilePath(change.document.uri), text: change.document.getText() }).then((data) => {
+		if (data.status == 'ok') {
+			console.log("For the thing: " + JSON.stringify(data.data));
+			connection.sendDiagnostics({
+				diagnostics: data.data,
+				uri: change.document.uri
+			});
+		}
 	});
 });
 

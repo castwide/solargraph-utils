@@ -122,7 +122,6 @@ export class Server {
 					reject();
 				} else {
 					if (response.headers['content-type'] && response.headers['content-type'].includes('json')) {
-						console.log('YIPPIE KAY YEY');
 						resolve(JSON.parse(body));
 					} else {
 						resolve(body);
