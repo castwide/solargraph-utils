@@ -31,8 +31,7 @@ var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
 export function solargraphCommand(args: string[], configuration: Configuration): child_process.ChildProcess {
 	let cmd = [];
 	if (configuration.useBundler && configuration.workspace) {
-		// TODO: pathToBundler configuration
-		cmd.push('bundle', 'exec', 'solargraph');
+		cmd.push(configuration.bundlerPath, 'exec', 'solargraph');
 	} else {
 		cmd.push(configuration.commandPath);
 	}
@@ -43,7 +42,7 @@ export function solargraphCommand(args: string[], configuration: Configuration):
 export function gemCommand(args: string[], configuration: Configuration): child_process.ChildProcess {
 	let cmd = [];
 	if (configuration.useBundler && configuration.workspace) {
-		cmd.push('bundle', 'exec');
+		cmd.push(configuration.bundlerPath, 'exec');
 	}
 	cmd.push('gem');
 	var env = commonOptions(configuration.workspace);
@@ -53,7 +52,7 @@ export function gemCommand(args: string[], configuration: Configuration): child_
 export function yardCommand(args: string[], configuration: Configuration): child_process.ChildProcess {
 	let cmd = [];
 	if (configuration.useBundler && configuration.workspace) {
-		cmd.push('bundle', 'exec');
+		cmd.push(configuration.bundlerPath, 'exec');
 	}
 	cmd.push('yard');
 	var env = commonOptions(configuration.workspace);
