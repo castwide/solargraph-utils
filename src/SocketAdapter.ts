@@ -42,6 +42,16 @@ export class SocketAdapter {
 		});
 	}
 
+	stop() {
+		if (!this.child) {
+			console.warn('The server is not running.');
+		} else {
+			process.kill(this.child.pid);
+			this._port = null;
+			this.child = null;
+		}
+	}
+
 	isListening(): Boolean {
 		return this.listening;
 	}
