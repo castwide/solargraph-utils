@@ -4,7 +4,7 @@ import { Configuration } from './Configuration';
 import { solargraphCommand } from './commands';
 import { ChildProcess } from 'child_process';
 
-export class SocketAdapter {
+export class SocketProvider {
 	private configuration: Configuration;
 	private child: ChildProcess;
 	private listening: Boolean;
@@ -54,6 +54,11 @@ export class SocketAdapter {
 			this._port = null;
 			this.child = null;
 		}
+	}
+
+	restart() {
+		this.stop();
+		return this.start();
 	}
 
 	isListening(): Boolean {

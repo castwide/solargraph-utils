@@ -1,6 +1,6 @@
 import {Configuration} from './Configuration';
 import {Server} from './Server';
-import {SocketAdapter} from './SocketAdapter';
+import {SocketProvider} from './SocketProvider';
 import * as commands from './commands';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -8,7 +8,7 @@ import * as fs from 'fs';
 export {
     Configuration,
 	Server,
-	SocketAdapter,
+	SocketProvider,
 	commands
 }
 
