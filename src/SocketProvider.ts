@@ -53,6 +53,7 @@ export class SocketProvider {
 			this._pid = null;
 			this._port = null;
 			this.child = null;
+			this.listening = false;
 		}
 	}
 
