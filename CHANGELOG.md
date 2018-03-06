@@ -1,3 +1,6 @@
+## 0.6.0 - March 6, 2018
+- bundlerPath configuration
+
 ## 0.5.1 - February 2, 2018
 - Commands use process.env.SHELL when available
 
