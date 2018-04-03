@@ -1,3 +1,6 @@
+## 0.7.0 - April 3, 2018
+- First version of language server
+
 ## 0.6.0 - March 6, 2018
 - bundlerPath configuration
 
