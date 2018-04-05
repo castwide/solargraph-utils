@@ -1,3 +1,6 @@
+## 0.7.1 - April 5, 2018
+- Capture ENOENT error when verifying gem installation
+
 ## 0.7.0 - April 3, 2018
 - First version of language server
 

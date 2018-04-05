@@ -34,14 +34,18 @@ export function nearestWorkspace(file:string, parent?:string):string {
 
 export function verifyGemIsInstalled(configuration:Configuration):Promise<Boolean> {
     return new Promise((resolve, reject) => {
-        var solargraphTest = commands.solargraphCommand(['help'], configuration);
-        solargraphTest.on('exit', (code) => {
-            if (code == 0) {
-                resolve(true);
-            } else {
-                resolve(false);
-            }
-        });
+		var solargraphTest = commands.solargraphCommand(['help'], configuration);
+		solargraphTest.on('exit', (code) => {
+			if (code == 0) {
+				resolve(true);
+			} else {
+				resolve(false);
+			}
+		});
+		solargraphTest.on('error', (err) => {
+			console.log(err);
+			resolve(false);
+		});
     });
 }
 
