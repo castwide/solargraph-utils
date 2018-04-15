@@ -21,8 +21,12 @@ var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
 		if (!shell) {
 			shell = '/bin/bash';
 		}
-		var shellArgs = ['-l', '-c', shellEscape(cmd)];
-		return child_process.spawn(shell, shellArgs, opts);
+		if (shell.endsWith('bash') || shell.endsWith('zsh')) {
+			var shellArgs = ['-l', '-c', shellEscape(cmd)];
+			return child_process.spawn(shell, shellArgs, opts);
+		} else {
+			return crossSpawn(cmd.shift(), cmd, opts);
+		}
 	} else {
 		return crossSpawn(cmd.shift(), cmd, opts);
 	}
