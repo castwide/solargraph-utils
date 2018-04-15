@@ -1,4 +1,4 @@
-## 0.7.2 - Aprtil 15, 2018
+## 0.7.2 - April 15, 2018
 - Spawn only uses explicit login with bash and zsh shells.
 
 ## 0.7.1 - April 5, 2018
