@@ -1,3 +1,6 @@
+## 0.7.2 - Aprtil 15, 2018
+- Spawn only uses explicit login with bash and zsh shells.
+
 ## 0.7.1 - April 5, 2018
 - Capture ENOENT error when verifying gem installation
 
