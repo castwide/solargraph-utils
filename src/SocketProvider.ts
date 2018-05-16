@@ -34,7 +34,11 @@ export class SocketProvider {
 					}
 				}
 			});
+			this.child.on('error', (err) => {
+				reject(err);
+			});
 			this.child.on('exit', (code) => {
+				console.log('The exit code is ' + code);
 				if (!that.isListening()) {
 					reject(buffer);
 				}
