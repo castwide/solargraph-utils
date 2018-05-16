@@ -1,3 +1,6 @@
+## 0.7.3 - May 17, 2018
+- Report errors finding the solargraph executable.
+
 ## 0.7.2 - April 15, 2018
 - Spawn only uses explicit login with bash and zsh shells.
 
