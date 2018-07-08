@@ -34,8 +34,6 @@
     "html2plaintext": "^1.1.0",
     "request": "^2.79.0",
     "shell-escape": "^0.2.0",
-    "uri-path": "^1.0.0",
-    "vscode-languageclient": "^4.0.0",
-    "vscode-languageserver": "^4.0.0"
+    "uri-path": "^1.0.0"
   }
 }
