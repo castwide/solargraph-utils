@@ -12,11 +12,18 @@ var commonOptions = function(workspace) {
 	return opts;
 }
 
+var mayNeedLoginShell = function(): Boolean {
+	// OSX and Linux may need to use an explicit login shell in order to find
+	// the correct Ruby environment through installation managers like rvm and
+	// rbenv.
+	return platform().match(/darwin|linux/)
+		&& !process.env.rvm_version
+		&& !process.env.RBENV_SHELL
+		&& !process.env.RUBY_VERSION;
+}
+
 var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
-	if (platform().match(/darwin|linux/)) {
-		// OSX and Linux need to use an explicit login shell in order to find
-		// the correct Ruby environment through installation managers like rvm
-		// and rbenv.
+	if (mayNeedLoginShell()) {
 		var shell = process.env.SHELL;
 		if (!shell) {
 			shell = '/bin/bash';
