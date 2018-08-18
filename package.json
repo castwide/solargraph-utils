@@ -1,6 +1,6 @@
 {
   "name": "solargraph-utils",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "Utilities for interacting with Solargraph",
   "main": "out/index.js",
   "typings": "out/index",
