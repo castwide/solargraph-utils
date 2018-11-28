@@ -1,3 +1,6 @@
+## 0.7.4 - August 18, 2018
+- Removed unused dependencies.
+
 ## 0.7.3 - May 17, 2018
 - Report errors finding the solargraph executable.
 
