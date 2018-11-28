@@ -1,3 +1,8 @@
+## 0.8.0 - November 29, 2018
+- Custom solargraph command paths do not play shell games.
+- Bash shells use login shells (-l).
+- Zsh shells use interactive shells (-i).
+
 ## 0.7.4 - August 18, 2018
 - Removed unused dependencies.
 
