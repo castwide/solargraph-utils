@@ -1,3 +1,6 @@
+## 0.8.1 - December 12, 2018
+- Solargraph commands are sent to bash/zsh as a single argument.
+
 ## 0.8.0 - November 29, 2018
 - Custom solargraph command paths do not play shell games.
 - Bash shells use login shells (-l).

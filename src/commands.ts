@@ -22,7 +22,8 @@ var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
 			shell = '/bin/bash';
 		}
 		if (shell.endsWith('bash') || shell.endsWith('zsh')) {
-			var shellArgs = ['-c', shellEscape(cmd)];
+			var shellCommand = shellEscape([shellEscape(cmd)]);
+			var shellArgs = ['-c', shellCommand];
 			if (shell.endsWith('zsh')) {
 				shellArgs.unshift('-i');
 			} else {
@@ -45,7 +46,11 @@ export function solargraphCommand(args: string[], configuration: Configuration):
 		cmd.push(configuration.commandPath);
 	}
 	var env = commonOptions(configuration.workspace);
-	return spawnWithBash(cmd.concat(args), env);
+	if (configuration.commandPath == 'solargraph') {
+		return spawnWithBash(cmd.concat(args), env);
+	} else {
+		return crossSpawn(cmd.shift(), cmd, env);
+	}
 }
 
 export function gemCommand(args: string[], configuration: Configuration): child_process.ChildProcess {
