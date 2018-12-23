@@ -1,3 +1,6 @@
+## 0.8.2 - December 24, 2018
+- Fixed solargraph command generation
+
 ## 0.8.1 - December 23, 2018
 - Solargraph commands are sent to bash/zsh as a single argument.
 - SocketProvider tests

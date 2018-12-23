@@ -46,9 +46,10 @@ export function solargraphCommand(args: string[], configuration: Configuration):
 		cmd.push(configuration.commandPath);
 	}
 	var env = commonOptions(configuration.workspace);
-	if (configuration.commandPath == 'solargraph') {
+	if (configuration.useBundler || configuration.commandPath == 'solargraph') {
 		return spawnWithBash(cmd.concat(args), env);
 	} else {
+		cmd = cmd.concat(args);
 		return crossSpawn(cmd.shift(), cmd, env);
 	}
 }
