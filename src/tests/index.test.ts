@@ -47,23 +47,33 @@ import * as solargraph from '../index';
 // });
 
 suite('SocketProvider', () => {
-    let configuration: solargraph.Configuration = new solargraph.Configuration();
-    let provider: solargraph.SocketProvider = new solargraph.SocketProvider(configuration);
+	let configuration: solargraph.Configuration = new solargraph.Configuration();
+	let provider: solargraph.SocketProvider = new solargraph.SocketProvider(configuration);
 
-    it('starts', (done) => {
-        expect(provider.isListening()).to.equal(false);
-        provider.start().then(() => {
-            expect(provider.isListening()).to.equal(true);
-        }).then(done, done);
-    });
+	it('starts', (done) => {
+		expect(provider.isListening()).to.equal(false);
+		provider.start().then(() => {
+			expect(provider.isListening()).to.equal(true);
+		}).then(done, done);
+	});
 
-    it('opens a port', () => {
-        expect(provider.port).to.be.above(0);
-    });
+	it('opens a port', () => {
+		expect(provider.port).to.be.above(0);
+	});
 
-    it('stops', () => {
-        provider.stop();
-        expect(provider.isListening()).to.equal(false);
-    });
+	it('restarts', (done) => {
+		provider.restart().then(() => {
+			expect(provider.isListening()).to.equal(true);
+		}).then(done, done);
+	});
+
+	it('opens another port', () => {
+		expect(provider.port).to.be.above(0);
+	});
+
+	it('stops', () => {
+		provider.stop();
+		expect(provider.isListening()).to.equal(false);
+	});
 
 });
