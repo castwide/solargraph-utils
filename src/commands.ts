@@ -47,8 +47,12 @@ export function solargraphCommand(args: string[], configuration: Configuration):
 	}
 	var env = commonOptions(configuration.workspace);
 	if (configuration.useBundler || configuration.commandPath == 'solargraph') {
+		// When using a bare `bundle` or `solargraph` command, apply shell
+		// magic to make sure Ruby installation managers work
 		return spawnWithBash(cmd.concat(args), env);
 	} else {
+		// When using a specified command path, assume shell magic is not
+		// necessary
 		cmd = cmd.concat(args);
 		return crossSpawn(cmd.shift(), cmd, env);
 	}
