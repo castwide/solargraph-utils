@@ -4,6 +4,8 @@ import 'mocha';
 import { expect } from 'chai';
 import assert = require('assert');
 import * as solargraph from '../index';
+import * as path from 'path';
+import { platform } from 'os';
 
 // suite('Server', () => {
 //     let configuration:solargraph.Configuration = new solargraph.Configuration();
@@ -46,6 +48,41 @@ import * as solargraph from '../index';
 //     });
 // });
 
+suite('solargraphCommand', () => {
+	let configuration: solargraph.Configuration = new solargraph.Configuration();
+
+	it('works with the default command path', (done) => {
+		let child = solargraph.commands.solargraphCommand(['-v'], configuration);
+		let output = '';
+		child.stdout.on('data', (buffer) => {
+			output += buffer.toString();
+		});
+		child.on('exit', () => {
+			expect(output).not.to.equal('');
+			done();
+		});
+	});
+
+	it('works with a custom command path', (done) => {
+		let cmd = 'solargraph';
+		if ((platform().match(/darwin|linux/))) {
+			cmd += '.rb';
+		} else {
+			cmd += '.bat';
+		}
+		configuration.commandPath = path.resolve('.', 'src', 'tests', 'bin', cmd);
+		let child = solargraph.commands.solargraphCommand(['-v'], configuration);
+		let output = '';
+		child.stdout.on('data', (buffer) => {
+			output += buffer.toString();
+		});
+		child.on('exit', () => {
+			expect(output).not.to.equal('');
+			done();
+		});
+	});
+});
+
 suite('SocketProvider', () => {
 	let configuration: solargraph.Configuration = new solargraph.Configuration();
 	let provider: solargraph.SocketProvider = new solargraph.SocketProvider(configuration);
@@ -75,5 +112,4 @@ suite('SocketProvider', () => {
 		provider.stop();
 		expect(provider.isListening()).to.equal(false);
 	});
-
 });
