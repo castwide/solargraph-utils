@@ -25,10 +25,11 @@ var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
 			var shellArgs = [shellEscape(cmd)];
 			shellArgs.unshift('-c');
 			if (shell.endsWith('zsh')) {
-				shellArgs.unshift('-i');
+				shellArgs.unshift('-l');
 			} else {
 				shellArgs.unshift('-l');
 			}
+			console.log('Expanded command for shell', shell, shellArgs);
 			return child_process.spawn(shell, shellArgs, opts);
 		} else {
 			return crossSpawn(cmd.shift(), cmd, opts);
