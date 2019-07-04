@@ -22,14 +22,17 @@ var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
 			shell = '/bin/bash';
 		}
 		if (shell.endsWith('bash') || shell.endsWith('zsh')) {
-			var shellArgs = [shellEscape(cmd)];
+			var shellCmd = shellEscape(cmd);
+			if (opts['cwd']) {
+				shellCmd = `${shellEscape(['cd', opts['cwd']])} && ${shellCmd}`;
+			}
+			var shellArgs = [shellCmd];
 			shellArgs.unshift('-c');
 			if (shell.endsWith('zsh')) {
 				shellArgs.unshift('-l');
 			} else {
 				shellArgs.unshift('-l');
 			}
-			console.log('Expanded command for shell', shell, shellArgs);
 			return child_process.spawn(shell, shellArgs, opts);
 		} else {
 			return crossSpawn(cmd.shift(), cmd, opts);
