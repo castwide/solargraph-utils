@@ -1,4 +1,4 @@
-## 1.0.0 - July 5, 2019
+## 1.0.1 - July 4, 2019
 - Use explicit `cd` for bash and zsh shells to work with rvm/rbenv
 
 ## 0.8.2 - December 24, 2018
