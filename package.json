@@ -31,7 +31,7 @@
     "file-url": "^2.0.2",
     "html2plaintext": "^1.1.0",
     "request": "^2.88.0",
-    "ruby-spawn": "1.2.0",
+    "ruby-spawn": "^1.2.0",
     "uri-path": "^1.0.0"
   }
 }
