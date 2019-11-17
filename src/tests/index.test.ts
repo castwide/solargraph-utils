@@ -91,6 +91,8 @@ suite('SocketProvider', () => {
 		expect(provider.isListening()).to.equal(false);
 		provider.start().then(() => {
 			expect(provider.isListening()).to.equal(true);
+		}).catch(() => {
+			throw new Error('SocketProvider failed to start');
 		}).then(done, done);
 	});
 

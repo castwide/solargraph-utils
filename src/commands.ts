@@ -19,7 +19,7 @@ export function solargraphCommand(args: string[], configuration: Configuration):
 		cmd.push(configuration.commandPath);
 	}
 	var env = commonOptions(configuration.workspace);
-	return rubySpawn(cmd.shift(), cmd, env, true);
+	return rubySpawn(cmd.shift(), cmd.concat(args), env, true);
 }
 
 export function gemCommand(args: string[], configuration: Configuration): child_process.ChildProcess {
