@@ -1,6 +1,6 @@
 {
   "name": "solargraph-utils",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Utilities for interacting with Solargraph",
   "main": "out/index.js",
   "typings": "out/index",
@@ -28,11 +28,10 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "cross-spawn": "^6.0.3",
     "file-url": "^2.0.2",
     "html2plaintext": "^1.1.0",
     "request": "^2.88.0",
-    "shell-escape": "^0.2.0",
+    "ruby-spawn": "1.2.0",
     "uri-path": "^1.0.0"
   }
 }
