@@ -5,14 +5,16 @@ export class Configuration {
 	private _commandPath:string;
 	private _withSnippets:Boolean;
 	private _viewsPath:string;
+	private _useWSL:Boolean;
 
-	public constructor(workspace:string = null, useBundler:Boolean = false, bundlerPath:string = "bundle", commandPath:string = 'solargraph', withSnippets:Boolean = false, viewsPath:string = null) {
+	public constructor(workspace:string = null, useBundler:Boolean = false, bundlerPath:string = "bundle", commandPath:string = 'solargraph', withSnippets:Boolean = false, viewsPath:string = null, useWSL:Boolean = false) {
 		this._workspace = workspace;
 		this._useBundler = useBundler;
 		this._bundlerPath = bundlerPath;
 		this._commandPath = commandPath;
 		this._withSnippets = withSnippets;
 		this._viewsPath = viewsPath;
+		this._useWSL = useWSL;
 	}
 
 	get workspace():string {
@@ -61,5 +63,13 @@ export class Configuration {
 
 	set viewsPath(path:string) {
 		this._viewsPath = path;
+	}
+
+	get useWSL():Boolean {
+		return this._useWSL;
+	}
+
+	set useWSL(bool:Boolean) {
+		this._useWSL = bool;
 	}
 }

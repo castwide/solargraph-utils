@@ -42,10 +42,12 @@ var spawnWithBash = function(cmd, opts): child_process.ChildProcess {
 	}
 }
 
-export function solargraphCommand(args: string[], configuration: Configuration): child_process.ChildProcess {
+export function solargraphCommand(args: string[], configuration: Configuration, spawn: Function = crossSpawn): child_process.ChildProcess {
 	let cmd = [];
 	if (configuration.useBundler && configuration.workspace) {
 		cmd.push(configuration.bundlerPath, 'exec', 'solargraph');
+	} else if(configuration.useWSL) {
+		cmd.push('wsl', configuration.commandPath);
 	} else {
 		cmd.push(configuration.commandPath);
 	}
@@ -58,7 +60,7 @@ export function solargraphCommand(args: string[], configuration: Configuration):
 		// When using a specified command path, assume shell magic is not
 		// necessary
 		cmd = cmd.concat(args);
-		return crossSpawn(cmd.shift(), cmd, env);
+		return spawn(cmd.shift(), cmd, env);
 	}
 }
 
