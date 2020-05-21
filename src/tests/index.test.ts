@@ -81,6 +81,24 @@ suite('solargraphCommand', () => {
 			done();
 		});
 	});
+
+	it('works with WSL', (done) => {
+		let cmd = 'solargraph';
+		if ((platform().match(/darwin|linux/))) {
+			cmd += '.rb';
+		} else {
+			cmd += '.bat';
+		}
+		const commandPath = path.resolve('.', 'src', 'tests', 'bin', cmd);
+		configuration.commandPath = commandPath;
+		configuration.useWSL = true;
+		solargraph.commands.solargraphCommand(['-v'], configuration, (cmd, args, env) => {
+			expect(cmd).to.equal('wsl');
+			expect(args).to.eql([commandPath, '-v']);
+			expect(env).not.to.equal(undefined);
+			done();
+		});
+	})
 });
 
 suite('SocketProvider', () => {
