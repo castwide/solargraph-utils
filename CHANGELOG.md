@@ -1,3 +1,7 @@
+## 1.2.0 - February 12, 2022
+- Configurable shell
+- Package updates
+
 ## 1.1.0 - November 17, 2019
 - Updated ruby-spawn (improved rvm/rbenv support)
 

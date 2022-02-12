@@ -3,11 +3,14 @@ import {Configuration} from './Configuration';
 import { platform } from 'os';
 import { rubySpawn } from 'ruby-spawn';
 
-var commonOptions = function(workspace) {
+var commonOptions = function(configuration) {
 	var opts = {};
-	if (workspace) {
-		opts['cwd'] = workspace;
-	}
+	if (configuration.workspace) {
+        opts['cwd'] = configuration.workspace;
+    }
+    if (configuration.shell) {
+        opts['shell'] = configuration.shell;
+    }
 	return opts;
 }
 
@@ -18,7 +21,7 @@ export function solargraphCommand(args: string[], configuration: Configuration):
 	} else {
 		cmd.push(configuration.commandPath);
 	}
-	var env = commonOptions(configuration.workspace);
+	var env = commonOptions(configuration);
 	return rubySpawn(cmd.shift(), cmd.concat(args), env, true);
 }
 
@@ -28,7 +31,7 @@ export function gemCommand(args: string[], configuration: Configuration): child_
 		cmd.push(configuration.bundlerPath, 'exec');
 	}
 	cmd.push('gem');
-	var env = commonOptions(configuration.workspace);
+	var env = commonOptions(configuration);
 	return rubySpawn(cmd.shift(), cmd.concat(args), env, true);
 }
 
@@ -38,6 +41,6 @@ export function yardCommand(args: string[], configuration: Configuration): child
 		cmd.push(configuration.bundlerPath, 'exec');
 	}
 	cmd.push('yard');
-	var env = commonOptions(configuration.workspace);
+	var env = commonOptions(configuration);
 	return rubySpawn(cmd.shift(), cmd.concat(args), env, true);
 }
