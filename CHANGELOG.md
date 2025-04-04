@@ -1,3 +1,6 @@
+## 1.3.0 - April 4, 2025
+- Move from request to axios
+
 ## 1.2.0 - February 12, 2022
 - Configurable shell
 - Package updates
